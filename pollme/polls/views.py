@@ -15,7 +15,9 @@ def detail(request, poll_id):
     return render(request, 'polls/detail.html', {'poll': poll})
 
 def results(request, poll_id):
-    return HttpResponse("Showing results of poll: %s" % poll_id)
+    poll = get_object_or_404(Poll, pk=poll_id)
+    choices = poll.choice_set.all().order_by('-votes')
+    return render(request, 'polls/results.html', {'poll': poll, 'choices': choices})
 
 def vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
