@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -14,6 +15,7 @@ def detail(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     return render(request, 'polls/detail.html', {'poll': poll})
 
+@login_required
 def results(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     choices = poll.choice_set.all().order_by('-votes')
